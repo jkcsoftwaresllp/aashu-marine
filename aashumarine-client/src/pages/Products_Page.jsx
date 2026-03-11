@@ -49,6 +49,7 @@ const Products_Page = () => {
       setError(null);
       try {
         const data = await productApi.getAll(filters);
+        console.log("ProductData ---> ", data.products)
         setProducts(data.products || []);
         setPagination(data.pagination);
       } catch (err) {

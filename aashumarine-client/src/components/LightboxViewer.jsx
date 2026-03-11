@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import './LightboxViewer.css';
 
+import { createPortal } from "react-dom";
+
 /**
  * LightboxViewer component displays images and videos in full-screen mode with navigation
  * Features:
@@ -43,7 +45,7 @@ const LightboxViewer = ({ mediaItems, images, initialIndex = 0, isOpen, onClose,
 
   // Navigate to previous item (circular)
   const handlePrevious = useCallback(() => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? items.length - 1 : prevIndex - 1
     );
   }, [items.length]);
@@ -107,12 +109,12 @@ const LightboxViewer = ({ mediaItems, images, initialIndex = 0, isOpen, onClose,
 
     let nextIndex;
     if (shiftKey) {
-      nextIndex = currentFocusIndex <= 0 
-        ? focusableElements.length - 1 
+      nextIndex = currentFocusIndex <= 0
+        ? focusableElements.length - 1
         : currentFocusIndex - 1;
     } else {
-      nextIndex = currentFocusIndex >= focusableElements.length - 1 
-        ? 0 
+      nextIndex = currentFocusIndex >= focusableElements.length - 1
+        ? 0
         : currentFocusIndex + 1;
     }
 
@@ -148,9 +150,9 @@ const LightboxViewer = ({ mediaItems, images, initialIndex = 0, isOpen, onClose,
 
   const currentItem = items[currentIndex];
 
-  return (
-    <div 
-      className="lightbox-overlay" 
+  return createPortal(
+    <div
+      className="lightbox-overlay"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -259,7 +261,8 @@ const LightboxViewer = ({ mediaItems, images, initialIndex = 0, isOpen, onClose,
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
