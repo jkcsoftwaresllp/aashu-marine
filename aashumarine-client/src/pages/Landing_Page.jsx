@@ -18,7 +18,7 @@ import {
   whyUsReasons
 } from '../data/dummyData';
 import './Landing_Page.css';
-import video1 from '../assets/images/bgVideo1.mp4'
+import video1 from '../assets/images/bgvideo1.mp4'
 
 // Company statistics for counter section
 const companyStats = [
