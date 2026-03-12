@@ -40,18 +40,39 @@ export function TestimonialsPage() {
     fetchTestimonials();
   }, [filters]);
 
+  // const fetchTestimonials = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     const response = await testimonialService.getAll(filters);
+  //     setTestimonials(response.testimonials);
+  //     setPagination(response.pagination);
+  //   } catch (error) {
+  //     showToast(error.message || 'Failed to load testimonials', 'error');
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
   const fetchTestimonials = async () => {
-    setIsLoading(true);
-    try {
-      const response = await testimonialService.getAll(filters);
-      setTestimonials(response.testimonials);
-      setPagination(response.pagination);
-    } catch (error) {
-      showToast(error.message || 'Failed to load testimonials', 'error');
-    } finally {
-      setIsLoading(false);
+  setIsLoading(true);
+
+  try {
+    const params = { ...filters };
+
+    // Remove filter if "All Status"
+    if (params.is_approved === null) {
+      delete params.is_approved;
     }
-  };
+
+    const response = await testimonialService.getAll(params);
+
+    setTestimonials(response.testimonials);
+    setPagination(response.pagination);
+  } catch (error) {
+    showToast(error.message || 'Failed to load testimonials', 'error');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleCreate = async (data) => {
     try {
